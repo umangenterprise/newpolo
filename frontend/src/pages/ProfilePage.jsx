@@ -13,6 +13,12 @@ const emptyAddress = {
   pincode: ""
 };
 
+const paymentLabelMap = {
+  cod: "Cash on Delivery",
+  razorpay: "Razorpay",
+  upi_qr: "UPI QR"
+};
+
 const ProfilePage = () => {
   const { user, fetchMe } = useApp();
   const [orders, setOrders] = useState([]);
@@ -168,6 +174,14 @@ const ProfilePage = () => {
                 <p>Order #{order._id.slice(-6)}</p>
                 <span>{new Date(order.createdAt).toLocaleDateString()}</span>
                 <span className={`status-pill ${order.orderStatus}`}>{order.orderStatus}</span>
+                <div className="order-meta">
+                  <span className="order-note">
+                    Payment Method: {paymentLabelMap[order.paymentMethod] || order.paymentMethod}
+                  </span>
+                  <span className={`status-pill payment-${order.paymentStatus}`}>
+                    Payment {order.paymentStatus}
+                  </span>
+                </div>
                 {!!order.deliveryDetails?.trackingId && (
                   <span className="order-note">
                     Tracking: {order.deliveryDetails.trackingId} ({order.deliveryDetails.courierName || "Courier"})
@@ -186,6 +200,32 @@ const ProfilePage = () => {
                     ETA: {order.deliveryDetails.estimatedDelivery}
                   </span>
                 )}
+                {!!order.deliveryDetails?.sellerNote && (
+                  <span className="order-note">Seller note: {order.deliveryDetails.sellerNote}</span>
+                )}
+                <div className="ordered-products">
+                  {order.orderItems?.map((item) => (
+                    <article key={`${order._id}-${item.product}`} className="ordered-product-card">
+                      <img src={getImageUrl(item.image)} alt={item.name} />
+                      <div className="ordered-product-copy">
+                        <strong>{item.name}</strong>
+                        <span className="helper-text">
+                          Qty {item.quantity} • {formatCurrency(item.price)}
+                        </span>
+                        <div className="ordered-product-actions">
+                          <Link to={`/products/${item.product}`} className="text-btn">
+                            View product
+                          </Link>
+                          {order.orderStatus === "delivered" && (
+                            <Link to={`/products/${item.product}`} className="ghost-btn">
+                              Rate product
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
               </div>
               <div className="order-actions">
                 <p>{formatCurrency(order.totalAmount)}</p>

@@ -884,6 +884,56 @@ button.primary-btn {
   color: #9b2f2f;
 }
 
+.status-pill.payment-pending {
+  background: #f7efe0;
+  color: #7a5a2b;
+}
+
+.status-pill.payment-paid {
+  background: #e8f9f1;
+  color: #1f7a4d;
+}
+
+.status-pill.payment-failed {
+  background: #fdecec;
+  color: #9b2f2f;
+}
+
+.ordered-products {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ordered-product-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 10px;
+  background: var(--surface-strong);
+}
+
+.ordered-product-card img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.ordered-product-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.ordered-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .admin-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/useApp.jsx";
 import { formatCurrency, getImageUrl } from "../utils/helpers.js";
 
@@ -8,6 +9,7 @@ void motion;
 
 const ProductCard = ({ product }) => {
   const { addToCart, user } = useApp();
+  const navigate = useNavigate();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
   const shortDescription =
@@ -35,6 +37,16 @@ const ProductCard = ({ product }) => {
   const goToNextImage = () => {
     if (images.length < 2) return;
     setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Please login first");
+      navigate("/auth");
+      return;
+    }
+
+    await addToCart(product._id);
   };
 
   return (
@@ -80,7 +92,7 @@ const ProductCard = ({ product }) => {
             <Link to={`/products/${product._id}`} className="ghost-btn product-link">
               View
             </Link>
-            <button onClick={() => user && addToCart(product._id)} disabled={!user || product.stock < 1}>
+            <button onClick={handleAddToCart} disabled={product.stock < 1}>
               {product.stock < 1 ? "Out of stock" : user ? "Add to cart" : "Login to buy"}
             </button>
           </div>
