@@ -562,6 +562,14 @@ button.primary-btn {
   box-shadow: 0 12px 28px rgba(23, 18, 14, 0.08);
 }
 
+.preview-card .product-actions {
+  justify-content: flex-end;
+}
+
+.preview-card .product-actions button {
+  min-width: 118px;
+}
+
 .preview-image {
   overflow: hidden;
 }
@@ -584,6 +592,10 @@ button.primary-btn {
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.preview-note {
+  font-size: 0.82rem;
 }
 
 .filters-row {

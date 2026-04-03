@@ -13,6 +13,8 @@ const previewProducts = [
     name: "Urban Drift Sling",
     price: 1299,
     category: "sling bag",
+    averageRating: 4.6,
+    numReviews: 18,
     image:
       "https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&w=900&q=80",
     description: "Compact everyday sling with a clean city-ready look."
@@ -22,6 +24,8 @@ const previewProducts = [
     name: "Metro Flex Backpack",
     price: 2499,
     category: "backpack",
+    averageRating: 4.8,
+    numReviews: 26,
     image:
       "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=900&q=80",
     description: "Laptop-friendly backpack with a sharp commuter silhouette."
@@ -31,6 +35,8 @@ const previewProducts = [
     name: "Luna Arc Handbag",
     price: 2199,
     category: "handbag",
+    averageRating: 4.7,
+    numReviews: 14,
     image:
       "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80",
     description: "Structured handbag styled as a premium catalog preview."
@@ -176,15 +182,24 @@ const ProductsPage = () => {
                     </div>
                     <h3>{item.name}</h3>
                     <p>{item.description}</p>
+                    <p className="helper-text">
+                      Rating {item.averageRating.toFixed(1)} / 5 ({item.numReviews})
+                    </p>
                     <div className="product-bottom">
                       <div>
                         <strong>{formatCurrency(item.price)}</strong>
                         <span className="price-caption">Seed hone ke baad yahan real product aayega</span>
                       </div>
-                      <button type="button" className="ghost-btn" disabled>
-                        Coming soon
-                      </button>
+                      <div className="product-actions">
+                        <button type="button" className="ghost-btn" disabled>
+                          View
+                        </button>
+                        <button type="button" disabled>
+                          Add to cart
+                        </button>
+                      </div>
                     </div>
+                    <p className="preview-note">Real add to cart, rating aur payment backend products aane par kaam karega.</p>
                   </div>
                 </article>
               ))}
