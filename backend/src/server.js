@@ -2,6 +2,7 @@ import "express-async-errors";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 import { connectDB } from "./config/db.js";
@@ -15,7 +16,6 @@ import productRoutes from "./routes/productRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
-connectDB();
 
 const app = express();
 const configuredOrigins = [
@@ -47,20 +47,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
+const getDbState = () => (mongoose.connection.readyState === 1 ? "connected" : "disconnected");
+
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "ok",
     message: "Umang API is running",
-    docs: "/api/health"
+    docs: "/api/health",
+    database: getDbState()
   });
 });
 
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Umang API is running" });
+  res.status(200).json({ status: "ok", message: "Umang API is running", database: getDbState() });
 });
 
 app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Umang API is running" });
+  res.status(200).json({ status: "ok", message: "Umang API is running", database: getDbState() });
 });
 
 app.use("/api/auth", authRoutes);
@@ -73,7 +76,18 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+void startServer();
