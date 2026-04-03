@@ -104,6 +104,7 @@ main {
   font-weight: 800;
   font-size: 1.35rem;
   letter-spacing: 0.04em;
+  flex: 0 0 auto;
 }
 
 .nav-links {
@@ -1121,12 +1122,12 @@ button.primary-btn {
 
 @media (max-width: 860px) {
   .nav-inner {
-    grid-template-columns: 1fr auto auto;
+    gap: 12px;
   }
 
   .nav-links,
   .search {
-    grid-column: 1 / -1;
+    max-width: none;
   }
 
   .products-grid {
@@ -1173,15 +1174,21 @@ button.primary-btn {
   }
 
   .nav-inner {
-    height: auto;
+    min-height: 0;
     padding: 10px 0;
     gap: 10px;
-    grid-template-columns: 1fr auto auto;
+    flex-wrap: wrap;
     align-items: center;
+  }
+
+  .logo {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .mobile-menu-toggle {
     display: grid;
+    margin-left: auto;
   }
 
   .nav-links,
@@ -1194,8 +1201,8 @@ button.primary-btn {
   .search.mobile-open,
   .nav-actions.mobile-open {
     display: flex;
-    grid-column: 1 / -1;
     width: 100%;
+    order: 10;
   }
 
   .nav-links.mobile-open {
@@ -1214,6 +1221,7 @@ button.primary-btn {
 
   .search.mobile-open {
     margin-top: 2px;
+    max-width: none;
   }
 
   .nav-actions.mobile-open {
