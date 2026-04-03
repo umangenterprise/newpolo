@@ -43,7 +43,11 @@ const AdminProductsPage = () => {
   };
 
   useEffect(() => {
-    loadProducts();
+    const init = async () => {
+      await loadProducts();
+    };
+
+    void init();
   }, []);
 
   const submitProduct = async (event) => {

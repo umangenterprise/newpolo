@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 import { formatCurrency, getImageUrl } from "../utils/helpers.js";
+
+void motion;
 
 const ProductCard = ({ product }) => {
   const { addToCart, user } = useApp();
@@ -13,7 +15,11 @@ const ProductCard = ({ product }) => {
   const images = product.images?.length ? product.images : [product.image];
 
   useEffect(() => {
-    setActiveImageIndex(0);
+    const timer = window.setTimeout(() => {
+      setActiveImageIndex(0);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [product._id]);
 
   useEffect(() => {

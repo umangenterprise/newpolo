@@ -2,7 +2,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard.jsx";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
+
+void motion;
 
 const heroOffers = [
   {

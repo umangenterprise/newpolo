@@ -12,7 +12,7 @@ import NotFoundPage from "./pages/NotFoundPage.jsx";
 import ProductDetailsPage from "./pages/ProductDetailsPage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import { useApp } from "./context/AppContext.jsx";
+import { useApp } from "./context/useApp.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useApp();

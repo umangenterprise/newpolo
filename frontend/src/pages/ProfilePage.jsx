@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import api from "../api/apiClient";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 import { formatCurrency, getImageUrl, parseShippingAddress } from "../utils/helpers.js";
 
 const emptyAddress = {
@@ -26,21 +26,31 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
-      const addressParts = parseShippingAddress(user.address);
-      setForm({
-        name: user.name || "",
-        phone: user.phone || "",
-        line1: addressParts.line1,
-        line2: addressParts.line2,
-        city: addressParts.city,
-        state: addressParts.state,
-        pincode: addressParts.pincode
-      });
+      const timer = window.setTimeout(() => {
+        const addressParts = parseShippingAddress(user.address);
+        setForm({
+          name: user.name || "",
+          phone: user.phone || "",
+          line1: addressParts.line1,
+          line2: addressParts.line2,
+          city: addressParts.city,
+          state: addressParts.state,
+          pincode: addressParts.pincode
+        });
+      }, 0);
+
+      return () => window.clearTimeout(timer);
     }
+
+    return undefined;
   }, [user]);
 
   useEffect(() => {
-    loadOrders();
+    const init = async () => {
+      await loadOrders();
+    };
+
+    void init();
   }, []);
 
   const cancelOrder = async (orderId) => {

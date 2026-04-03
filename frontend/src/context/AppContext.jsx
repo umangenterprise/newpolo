@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../api/apiClient";
-
-const AppContext = createContext(null);
+import { AppContext } from "./appContextObject.jsx";
 
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -12,27 +11,27 @@ export const AppProvider = ({ children }) => {
 
   const token = localStorage.getItem("umang_token");
 
-  const fetchProducts = async (params = {}) => {
+  const fetchProducts = useCallback(async (params = {}) => {
     const { data } = await api.get("/products", { params });
     setProducts(data);
     return data;
-  };
+  }, []);
 
-  const fetchMe = async () => {
+  const fetchMe = useCallback(async () => {
     if (!token) return null;
 
     try {
       const { data } = await api.get("/auth/me");
       setUser(data);
       return data;
-    } catch (error) {
+    } catch {
       localStorage.removeItem("umang_token");
       setUser(null);
       return null;
     }
-  };
+  }, [token]);
 
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     if (!localStorage.getItem("umang_token")) {
       setCart({ items: [] });
       return;
@@ -41,12 +40,12 @@ export const AppProvider = ({ children }) => {
     try {
       const { data } = await api.get("/cart");
       setCart(data || { items: [] });
-    } catch (error) {
+    } catch {
       setCart({ items: [] });
     }
-  };
+  }, []);
 
-  const login = async (payload) => {
+  const login = useCallback(async (payload) => {
     setLoading(true);
     try {
       const { data } = await api.post("/auth/login", payload);
@@ -58,9 +57,9 @@ export const AppProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchCart]);
 
-  const register = async (payload) => {
+  const register = useCallback(async (payload) => {
     setLoading(true);
     try {
       const { data } = await api.post("/auth/register", payload);
@@ -72,14 +71,14 @@ export const AppProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [fetchCart]);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       if (localStorage.getItem("umang_token")) {
         await api.post("/auth/logout");
       }
-    } catch (error) {
+    } catch {
       // Ignore logout sync failures and clear local state anyway.
     } finally {
       localStorage.removeItem("umang_token");
@@ -87,24 +86,24 @@ export const AppProvider = ({ children }) => {
       setCart({ items: [] });
       toast.success("Logged out");
     }
-  };
+  }, []);
 
-  const addToCart = async (productId, quantity = 1) => {
+  const addToCart = useCallback(async (productId, quantity = 1) => {
     const { data } = await api.post("/cart", { productId, quantity });
     setCart(data);
     toast.success("Added to cart");
-  };
+  }, []);
 
-  const updateCartQty = async (productId, quantity) => {
+  const updateCartQty = useCallback(async (productId, quantity) => {
     const { data } = await api.put(`/cart/${productId}`, { quantity });
     setCart(data);
-  };
+  }, []);
 
-  const removeCartItem = async (productId) => {
+  const removeCartItem = useCallback(async (productId) => {
     const { data } = await api.delete(`/cart/${productId}`);
     setCart(data);
     toast.success("Item removed");
-  };
+  }, []);
 
   const cartCount = useMemo(
     () => cart.items?.reduce((sum, item) => sum + item.quantity, 0) || 0,
@@ -112,10 +111,10 @@ export const AppProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    fetchProducts();
-    fetchMe();
-    fetchCart();
-  }, []);
+    void fetchProducts();
+    void fetchMe();
+    void fetchCart();
+  }, [fetchProducts, fetchMe, fetchCart]);
 
   const value = {
     user,
@@ -137,10 +136,4 @@ export const AppProvider = ({ children }) => {
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-};
-
-export const useApp = () => {
-  const context = useContext(AppContext);
-  if (!context) throw new Error("useApp must be used inside AppProvider");
-  return context;
 };

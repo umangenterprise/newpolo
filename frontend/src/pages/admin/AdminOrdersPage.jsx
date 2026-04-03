@@ -29,7 +29,11 @@ const AdminOrdersPage = () => {
   };
 
   useEffect(() => {
-    load();
+    const init = async () => {
+      await load();
+    };
+
+    void init();
   }, []);
 
   const patchOrder = (orderId, updates) => {

@@ -11,7 +11,11 @@ const AdminUsersPage = () => {
   };
 
   useEffect(() => {
-    load();
+    const init = async () => {
+      await load();
+    };
+
+    void init();
   }, []);
 
   return (

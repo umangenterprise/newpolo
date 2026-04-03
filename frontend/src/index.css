@@ -1054,7 +1054,7 @@ button.primary-btn {
   background: var(--brand);
 }
 
-@media (max-width: 980px) {
+@media (max-width: 860px) {
   .nav-inner {
     grid-template-columns: 1fr auto auto;
   }

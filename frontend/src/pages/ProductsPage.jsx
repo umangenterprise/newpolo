@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
 import ProductCard from "../components/ProductCard.jsx";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 
 const categories = ["all", "sling bag", "backpack", "handbag"];
 const PRODUCTS_PER_PAGE = 6;
@@ -31,7 +31,7 @@ const ProductsPage = () => {
     };
 
     load();
-  }, [selectedCategory, q, min, max]);
+  }, [fetchProducts, selectedCategory, q, min, max]);
 
   const filtersText = useMemo(() => {
     if (!q && selectedCategory === "all" && !min && !max) return "All products";

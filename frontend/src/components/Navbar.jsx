@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiMenu, FiMoon, FiSearch, FiShoppingBag, FiSun, FiUser, FiX } from "react-icons/fi";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useApp } from "../context/AppContext.jsx";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useApp } from "../context/useApp.jsx";
 
 const getInitialTheme = () => {
   if (typeof window === "undefined") return "light";
@@ -13,7 +13,6 @@ const getInitialTheme = () => {
 const Navbar = () => {
   const { cartCount, logout, user } = useApp();
   const navigate = useNavigate();
-  const location = useLocation();
   const [theme, setTheme] = useState(getInitialTheme);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -22,14 +21,11 @@ const Navbar = () => {
     window.localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname, location.search, location.hash]);
-
   const handleSearch = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const query = formData.get("query");
+    setMobileMenuOpen(false);
     navigate(`/products?q=${encodeURIComponent(query || "")}`);
   };
 
@@ -54,7 +50,7 @@ const Navbar = () => {
           {mobileMenuOpen ? <FiX /> : <FiMenu />}
         </button>
 
-        <nav className={`nav-links ${mobileMenuOpen ? "mobile-open" : ""}`}>
+        <nav className={`nav-links ${mobileMenuOpen ? "mobile-open" : ""}`} onClick={() => setMobileMenuOpen(false)}>
           {user && <NavLink to="/">Home</NavLink>}
           {user && <NavLink to="/products">Shop</NavLink>}
           {user && <NavLink to="/checkout">Address</NavLink>}
@@ -76,15 +72,26 @@ const Navbar = () => {
           >
             {theme === "dark" ? <FiSun /> : <FiMoon />}
           </button>
-          <Link to="/cart" className="icon-btn" aria-label="cart">
+          <Link to="/cart" className="icon-btn" aria-label="cart" onClick={() => setMobileMenuOpen(false)}>
             <FiShoppingBag />
             {cartCount > 0 && <span>{cartCount}</span>}
           </Link>
-          <Link to={user ? "/profile" : "/auth"} className="icon-btn" aria-label="profile">
+          <Link
+            to={user ? "/profile" : "/auth"}
+            className="icon-btn"
+            aria-label="profile"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <FiUser />
           </Link>
           {user && (
-            <button className="text-btn" onClick={logout}>
+            <button
+              className="text-btn"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                logout();
+              }}
+            >
               Logout
             </button>
           )}

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 
+void motion;
+
 const Loader = ({ text = "Loading Umang..." }) => (
   <div className="loader-wrap">
     <motion.div

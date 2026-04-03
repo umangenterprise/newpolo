@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 import { formatCurrency, getImageUrl } from "../utils/helpers.js";
 
 const CartPage = () => {

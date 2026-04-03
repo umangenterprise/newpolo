@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/apiClient";
 import Loader from "../components/Loader.jsx";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 import { formatCurrency, getImageUrl } from "../utils/helpers.js";
 
 const ProductDetailsPage = () => {

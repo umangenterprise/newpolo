@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import api from "../api/apiClient";
-import { useApp } from "../context/AppContext.jsx";
+import { useApp } from "../context/useApp.jsx";
 import { formatCurrency } from "../utils/helpers.js";
 import { loadRazorpayScript } from "../utils/razorpay.js";
 
