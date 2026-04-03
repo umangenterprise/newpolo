@@ -7,7 +7,8 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "seed": "node src/seed/seedData.js",
-    "admin:reset": "node src/seed/resetAdmin.js"
+    "admin:reset": "node src/seed/resetAdmin.js",
+    "seed:products": "node src/seed/seedProductsOnly.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
