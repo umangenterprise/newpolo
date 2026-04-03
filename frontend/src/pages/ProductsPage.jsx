@@ -3,9 +3,39 @@ import { Link, useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { useApp } from "../context/useApp.jsx";
+import { formatCurrency } from "../utils/helpers.js";
 
 const categories = ["all", "sling bag", "backpack", "handbag"];
 const PRODUCTS_PER_PAGE = 6;
+const previewProducts = [
+  {
+    _id: "preview-urban-drift",
+    name: "Urban Drift Sling",
+    price: 1299,
+    category: "sling bag",
+    image:
+      "https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&w=900&q=80",
+    description: "Compact everyday sling with a clean city-ready look."
+  },
+  {
+    _id: "preview-metro-flex",
+    name: "Metro Flex Backpack",
+    price: 2499,
+    category: "backpack",
+    image:
+      "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=900&q=80",
+    description: "Laptop-friendly backpack with a sharp commuter silhouette."
+  },
+  {
+    _id: "preview-luna-arc",
+    name: "Luna Arc Handbag",
+    price: 2199,
+    category: "handbag",
+    image:
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=80",
+    description: "Structured handbag styled as a premium catalog preview."
+  }
+];
 
 const ProductsPage = () => {
   const { products, fetchProducts } = useApp();
@@ -119,15 +149,47 @@ const ProductsPage = () => {
       {loading ? (
         <Loader text="Loading products..." />
       ) : products.length === 0 ? (
-        <div className="empty-state">
-          <h3>No bags found yet</h3>
-          <p>
-            Products abhi list me nahi aaye. Backend me sample products seed karne ke baad yahan
-            photo cards dikhne lagenge.
-          </p>
-          <Link to="/" className="primary-btn">
-            Back to Home
-          </Link>
+        <div className="empty-products-state">
+          <div className="empty-state">
+            <h3>No bags found yet</h3>
+            <p>
+              Products abhi list me nahi aaye. Backend me sample products seed karne ke baad yahan
+              real photo cards dikhne lagenge.
+            </p>
+            <div className="empty-actions">
+              <Link to="/" className="primary-btn">
+                Back to Home
+              </Link>
+              <span className="helper-text">Preview cards neeche dikh rahe hain.</span>
+            </div>
+            <div className="products-grid preview-grid">
+              {previewProducts.map((item) => (
+                <article key={item._id} className="product-card preview-card">
+                  <div className="image-link preview-image">
+                    <img src={item.image} alt={item.name} />
+                    <span className="preview-badge">Preview</span>
+                  </div>
+                  <div className="product-body">
+                    <div className="product-meta">
+                      <span className="product-category">{item.category}</span>
+                      <span className="stock-badge in-stock">Sample card</span>
+                    </div>
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                    <div className="product-bottom">
+                      <div>
+                        <strong>{formatCurrency(item.price)}</strong>
+                        <span className="price-caption">Seed hone ke baad yahan real product aayega</span>
+                      </div>
+                      <button type="button" className="ghost-btn" disabled>
+                        Coming soon
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       ) : (
         <>
