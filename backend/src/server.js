@@ -2,10 +2,9 @@ import "express-async-errors";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
-import { connectDBWithRetry } from "./config/db.js";
+import { connectDBWithRetry, getDbHealth } from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -47,23 +46,36 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-const getDbState = () => (mongoose.connection.readyState === 1 ? "connected" : "disconnected");
-
 app.get("/", (req, res) => {
+  const db = getDbHealth();
   res.status(200).json({
     status: "ok",
     message: "Umang API is running",
     docs: "/api/health",
-    database: getDbState()
+    database: db.state
   });
 });
 
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Umang API is running", database: getDbState() });
+  const db = getDbHealth();
+  res.status(200).json({
+    status: "ok",
+    message: "Umang API is running",
+    database: db.state,
+    databaseError: db.lastError,
+    lastConnectedAt: db.lastConnectedAt
+  });
 });
 
 app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Umang API is running", database: getDbState() });
+  const db = getDbHealth();
+  res.status(200).json({
+    status: "ok",
+    message: "Umang API is running",
+    database: db.state,
+    databaseError: db.lastError,
+    lastConnectedAt: db.lastConnectedAt
+  });
 });
 
 app.use("/api/auth", authRoutes);
