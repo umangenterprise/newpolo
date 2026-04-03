@@ -133,3 +133,32 @@ export const sendOrderOtpEmail = async ({ customer, otp }) => {
 
   return true;
 };
+
+export const sendAuthOtpEmail = async ({ customer, otp }) => {
+  const transporter = getTransporter();
+
+  if (!transporter || !customer?.email || !otp) {
+    return false;
+  }
+
+  const html = `
+    <div style="font-family:Arial,sans-serif; color:#14100d; max-width:560px; margin:0 auto;">
+      <h2 style="margin-bottom:10px;">Verify your Umang account</h2>
+      <p style="margin-top:0;">Hi ${escapeHtml(customer.name || "there")}, enter this OTP to verify your email and activate your Umang account.</p>
+      <div style="margin:24px 0; padding:18px; border-radius:16px; background:#fff7ef; border:1px solid #e2d8ce; text-align:center;">
+        <div style="font-size:32px; font-weight:700; letter-spacing:10px;">${escapeHtml(otp)}</div>
+      </div>
+      <p style="margin:0; color:#7a6f66;">This OTP is valid for ${escapeHtml(process.env.AUTH_OTP_EXPIRY_MINUTES || "10")} minutes.</p>
+      <p style="margin-top:20px; color:#7a6f66;">If you did not sign up on Umang, you can ignore this email.</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM || process.env.GMAIL_USER,
+    to: customer.email,
+    subject: "Verify your Umang account",
+    html
+  });
+
+  return true;
+};

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
-import { isSellerSessionActive } from "../utils/sellerSession.js";
 
 const DEFAULT_JWT_SECRET = "dev_jwt_secret_change_me";
 
@@ -22,12 +21,6 @@ export const protect = async (req, res, next) => {
 
     if (req.user.isBlocked) {
       return res.status(403).json({ message: "Your account has been blocked by the seller." });
-    }
-
-    if (isSellerSessionActive() && req.user.role !== "admin") {
-      return res.status(403).json({
-        message: "Seller panel is active. Customer access is temporarily disabled."
-      });
     }
 
     return next();

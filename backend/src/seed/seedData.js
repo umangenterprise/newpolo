@@ -98,7 +98,8 @@ const runSeed = async () => {
       name: "Umang Admin",
       email: "admin@umang.com",
       password: adminPassword,
-      role: "admin"
+      role: "admin",
+      isEmailVerified: true
     });
 
     await Product.insertMany(seedProducts);

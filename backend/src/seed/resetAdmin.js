@@ -30,6 +30,9 @@ const run = async () => {
       existing.password = hashedPassword;
       existing.role = "admin";
       existing.isBlocked = false;
+      existing.isEmailVerified = true;
+      existing.emailVerificationOtp = "";
+      existing.emailVerificationExpiresAt = null;
       await existing.save();
     } else {
       await User.create({
@@ -37,7 +40,8 @@ const run = async () => {
         email,
         password: hashedPassword,
         role: "admin",
-        isBlocked: false
+        isBlocked: false,
+        isEmailVerified: true
       });
     }
 
