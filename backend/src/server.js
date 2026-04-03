@@ -5,6 +5,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { connectDBWithRetry, getDbHealth } from "./config/db.js";
+import { requireDbConnection } from "./middleware/dbReadyMiddleware.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -78,11 +79,11 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/auth", requireDbConnection, authRoutes);
+app.use("/api/products", requireDbConnection, productRoutes);
+app.use("/api/cart", requireDbConnection, cartRoutes);
+app.use("/api/orders", requireDbConnection, orderRoutes);
+app.use("/api/admin", requireDbConnection, adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
