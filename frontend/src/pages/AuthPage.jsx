@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/useApp.jsx";
 
+const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value || "");
+
 const AuthPage = () => {
   const navigate = useNavigate();
   const { login, register, loading } = useApp();
@@ -12,12 +14,31 @@ const AuthPage = () => {
   const submit = async (event) => {
     event.preventDefault();
 
+    const name = form.name.trim();
+    const email = form.email.trim().toLowerCase();
+    const password = form.password;
+
+    if (mode === "register" && name.length < 2) {
+      toast.error("Full name kam se kam 2 characters ka hona chahiye");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      toast.error("Valid email address enter karo");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password kam se kam 6 characters ka hona chahiye");
+      return;
+    }
+
     try {
       if (mode === "login") {
-        const data = await login({ email: form.email, password: form.password });
+        const data = await login({ email, password });
         navigate(data.role === "admin" ? "/admin" : "/");
       } else {
-        await register(form);
+        await register({ ...form, name, email, password });
         navigate("/");
       }
     } catch (error) {

@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import { User } from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 
+const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value || "");
+
 const toAuthPayload = (user) => ({
   _id: user._id,
   name: user.name,
@@ -20,6 +22,18 @@ export const registerUser = async (req, res) => {
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Please provide all required fields" });
+  }
+
+  if (name.length < 2) {
+    return res.status(400).json({ message: "Full name must be at least 2 characters long" });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ message: "Please enter a valid email address" });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters long" });
   }
 
   const existingUser = await User.findOne({ email });
@@ -51,6 +65,10 @@ export const loginUser = async (req, res) => {
 
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ message: "Please enter a valid email address" });
   }
 
   const user = await User.findOne({ email });
