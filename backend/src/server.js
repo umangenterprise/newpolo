@@ -5,7 +5,7 @@ import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
-import { connectDB } from "./config/db.js";
+import { connectDBWithRetry } from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -76,18 +76,8 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      // eslint-disable-next-line no-console
-      console.log(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Failed to start server:", error.message);
-    process.exit(1);
-  }
-};
-
-void startServer();
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server running on port ${PORT}`);
+  void connectDBWithRetry();
+});
