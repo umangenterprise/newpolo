@@ -63,42 +63,15 @@ export const AppProvider = ({ children }) => {
     setLoading(true);
     try {
       const { data } = await api.post("/auth/register", payload);
-      if (data.token) {
-        localStorage.setItem("umang_token", data.token);
-        setUser(data);
-        await fetchCart();
-        toast.success("Account created successfully");
-      }
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchCart]);
-
-  const verifyEmailOtp = useCallback(async (payload) => {
-    setLoading(true);
-    try {
-      const { data } = await api.post("/auth/verify-email", payload);
       localStorage.setItem("umang_token", data.token);
       setUser(data);
       await fetchCart();
-      toast.success("Email verified successfully");
+      toast.success("Account created successfully");
       return data;
     } finally {
       setLoading(false);
     }
   }, [fetchCart]);
-
-  const resendEmailOtp = useCallback(async (payload) => {
-    setLoading(true);
-    try {
-      const { data } = await api.post("/auth/resend-email-otp", payload);
-      toast.success(data.message || "OTP sent again");
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   const logout = useCallback(async () => {
     try {
@@ -156,8 +129,6 @@ export const AppProvider = ({ children }) => {
     fetchCart,
     login,
     register,
-    verifyEmailOtp,
-    resendEmailOtp,
     logout,
     addToCart,
     updateCartQty,
