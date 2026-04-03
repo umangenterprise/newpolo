@@ -1,5 +1,18 @@
 import axios from "axios";
 
+const getDefaultApiUrl = () => {
+  if (typeof window === "undefined") {
+    return "http://localhost:5000/api";
+  }
+
+  const host = window.location.hostname.toLowerCase();
+  if (host === "umangbags.shop" || host === "www.umangbags.shop") {
+    return "https://api.umangbags.shop/api";
+  }
+
+  return "http://localhost:5000/api";
+};
+
 const resolveBaseUrlForMobile = (rawUrl) => {
   if (!rawUrl) return rawUrl;
 
@@ -22,7 +35,8 @@ const resolveBaseUrlForMobile = (rawUrl) => {
   }
 };
 
-const apiBaseUrl = resolveBaseUrlForMobile(import.meta.env.VITE_API_URL || "http://localhost:5000/api");
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const apiBaseUrl = resolveBaseUrlForMobile(configuredApiUrl || getDefaultApiUrl());
 
 const api = axios.create({
   baseURL: apiBaseUrl
