@@ -59,31 +59,6 @@ export const AppProvider = ({ children }) => {
     }
   }, [fetchCart]);
 
-  const requestLoginOtp = useCallback(async (payload) => {
-    setLoading(true);
-    try {
-      const { data } = await api.post("/auth/login/request-otp", payload);
-      toast.success("Login code email par bhej diya gaya");
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const verifyLoginOtp = useCallback(async (payload) => {
-    setLoading(true);
-    try {
-      const { data } = await api.post("/auth/login/verify-otp", payload);
-      localStorage.setItem("umang_token", data.token);
-      setUser(data);
-      await fetchCart();
-      toast.success("Login successful");
-      return data;
-    } finally {
-      setLoading(false);
-    }
-  }, [fetchCart]);
-
   const register = useCallback(async (payload) => {
     setLoading(true);
     try {
@@ -153,8 +128,6 @@ export const AppProvider = ({ children }) => {
     fetchMe,
     fetchCart,
     login,
-    requestLoginOtp,
-    verifyLoginOtp,
     register,
     logout,
     addToCart,
