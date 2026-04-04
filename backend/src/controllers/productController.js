@@ -2,9 +2,14 @@ import { Product } from "../models/Product.js";
 import { Order } from "../models/Order.js";
 
 const buildImagePaths = (files = []) => files.map((file) => `/uploads/${file.filename}`);
+const normalizeGstPercent = (value) => {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(Math.max(parsed, 0), 28);
+};
 
 export const createProduct = async (req, res) => {
-  const { name, price, description, category, stock, featured } = req.body;
+  const { name, price, gstPercent, description, category, stock, featured } = req.body;
 
   if (!name || !price || !description || !category || stock === undefined) {
     return res.status(400).json({ message: "Please provide complete product details" });
@@ -19,6 +24,7 @@ export const createProduct = async (req, res) => {
   const product = await Product.create({
     name,
     price,
+    gstPercent: normalizeGstPercent(gstPercent),
     description,
     category,
     stock,
@@ -40,10 +46,13 @@ export const updateProduct = async (req, res) => {
     product.images = [product.image];
   }
 
-  const { name, price, description, category, stock, featured } = req.body;
+  const { name, price, gstPercent, description, category, stock, featured } = req.body;
 
   product.name = name ?? product.name;
   product.price = price ?? product.price;
+  if (gstPercent !== undefined) {
+    product.gstPercent = normalizeGstPercent(gstPercent);
+  }
   product.description = description ?? product.description;
   product.category = category ?? product.category;
   product.stock = stock ?? product.stock;

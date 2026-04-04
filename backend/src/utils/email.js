@@ -54,7 +54,7 @@ export const sendOrderConfirmationEmail = async ({ customer, order }) => {
         <tr>
           <td style="padding:8px 0;">${escapeHtml(item.name)}</td>
           <td style="padding:8px 0; text-align:center;">${item.quantity}</td>
-          <td style="padding:8px 0; text-align:right;">${escapeHtml(formatCurrency(item.price * item.quantity))}</td>
+          <td style="padding:8px 0; text-align:right;">${escapeHtml(formatCurrency(item.lineTotal || item.price * item.quantity))}</td>
         </tr>
       `
     )
@@ -76,6 +76,7 @@ export const sendOrderConfirmationEmail = async ({ customer, order }) => {
       <div style="background:#fff7ef; border:1px solid #e2d8ce; border-radius:14px; padding:16px; margin:20px 0;">
         <p style="margin:0 0 8px;"><strong>Order ID:</strong> ${escapeHtml(order._id.toString())}</p>
         <p style="margin:0 0 8px;"><strong>Payment:</strong> ${escapeHtml(order.paymentMethod.toUpperCase())}</p>
+        <p style="margin:0 0 8px;"><strong>GST:</strong> ${escapeHtml(formatCurrency(order.gstAmount || 0))}</p>
         <p style="margin:0;"><strong>Total:</strong> ${escapeHtml(formatCurrency(order.totalAmount))}</p>
       </div>
       <h3 style="margin-bottom:10px;">Items</h3>

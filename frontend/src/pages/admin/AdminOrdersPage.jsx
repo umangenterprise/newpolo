@@ -108,6 +108,7 @@ const AdminOrdersPage = () => {
               </div>
               <div>
                 <p>{formatCurrency(order.totalAmount)}</p>
+                {!!order.gstAmount && <span className="helper-text">GST: {formatCurrency(order.gstAmount)}</span>}
                 <span>{order.paymentMethod}</span>
                 {!!order.paymentReference && (
                   <div className="order-meta">

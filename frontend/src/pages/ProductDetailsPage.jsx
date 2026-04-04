@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/apiClient";
 import Loader from "../components/Loader.jsx";
 import { useApp } from "../context/useApp.jsx";
-import { formatCurrency, getImageUrl } from "../utils/helpers.js";
+import { formatCurrency, getImageUrl, getProductGstPercent } from "../utils/helpers.js";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -69,14 +69,26 @@ const ProductDetailsPage = () => {
         )}
         </div>
         <div>
+          {(() => {
+            const gstPercent = getProductGstPercent(product);
+            const gstAmount = (Number(product.price) || 0) * (gstPercent / 100);
+            const finalPrice = (Number(product.price) || 0) + gstAmount;
+            return (
+              <>
           <span className="product-category">{product.category}</span>
           <h2>{product.name}</h2>
           <p>{product.description}</p>
           <h3>{formatCurrency(product.price)}</h3>
+          <p className="helper-text">
+            GST {gstPercent}% ({formatCurrency(gstAmount)}) • Final price {formatCurrency(finalPrice)}
+          </p>
           <p>
             Rating: {(product.averageRating || 0).toFixed(1)} / 5 ({product.numReviews || 0} reviews)
           </p>
           <p>Stock: {product.stock}</p>
+              </>
+            );
+          })()}
 
           <div className="details-actions">
             <input

@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
+    gstPercent: { type: Number, default: 0, min: 0, max: 28 },
     description: { type: String, required: true },
     image: { type: String, required: true },
     images: {

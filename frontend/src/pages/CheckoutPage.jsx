@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import api from "../api/apiClient";
 import { useApp } from "../context/useApp.jsx";
-import { formatCurrency } from "../utils/helpers.js";
+import { calculateCartTotals, formatCurrency } from "../utils/helpers.js";
 import { loadRazorpayScript } from "../utils/razorpay.js";
 
 const invalidRazorpayValues = new Set(["", "rzp_test_replace", "replace_key_secret", undefined]);
@@ -36,9 +36,10 @@ const CheckoutPage = () => {
   const [paymentProofPreview, setPaymentProofPreview] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const subtotal = cart.items?.reduce((sum, item) => sum + item.product.price * item.quantity, 0) || 0;
-  const shippingFee = form.paymentMethod === "upi_qr" || subtotal > 1999 ? 0 : 99;
-  const totalAmount = subtotal + shippingFee;
+  const { subtotal, gstAmount, shippingFee, totalAmount } = calculateCartTotals(
+    cart.items,
+    form.paymentMethod
+  );
   const upiLink = `upi://pay?pa=${encodeURIComponent(upiId || "")}&pn=${encodeURIComponent(
     upiName
   )}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent("Umang Order Payment")}`;
@@ -293,6 +294,12 @@ const CheckoutPage = () => {
             sakte ho.
           </p>
         )}
+        <div className="helper-text">
+          <p>Subtotal: {formatCurrency(subtotal)}</p>
+          <p>GST: {formatCurrency(gstAmount)}</p>
+          <p>Shipping: {shippingFee === 0 ? "Free" : formatCurrency(shippingFee)}</p>
+          <p>Total payable: {formatCurrency(totalAmount)}</p>
+        </div>
 
         {form.paymentMethod === "upi_qr" && upiEnabled && (
           <div className="upi-box">

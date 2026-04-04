@@ -5,6 +5,28 @@ export const formatCurrency = (value) =>
     maximumFractionDigits: 0
   }).format(value || 0);
 
+export const getProductGstPercent = (product) => {
+  const parsed = Number(product?.gstPercent);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(Math.max(parsed, 0), 28);
+};
+
+export const calculateCartTotals = (items = [], paymentMethod = "cod") => {
+  const subtotal =
+    items.reduce((sum, item) => sum + (Number(item.product?.price) || 0) * (Number(item.quantity) || 0), 0) || 0;
+  const gstAmount =
+    items.reduce((sum, item) => {
+      const price = Number(item.product?.price) || 0;
+      const quantity = Number(item.quantity) || 0;
+      const gstPercent = getProductGstPercent(item.product);
+      return sum + price * quantity * (gstPercent / 100);
+    }, 0) || 0;
+  const shippingFee = paymentMethod === "upi_qr" || subtotal > 1999 ? 0 : 99;
+  const totalAmount = subtotal + gstAmount + shippingFee;
+
+  return { subtotal, gstAmount, shippingFee, totalAmount };
+};
+
 const resolveBaseUrlForMobile = (rawUrl) => {
   if (!rawUrl) return rawUrl;
 
@@ -104,13 +126,11 @@ const buildInvoiceHtml = (order, customer, invoiceOptions = {}) => {
     awbNumber
   )}&code=Code128&dpi=96&imagetype=png`;
   const includeGst = Boolean(invoiceOptions?.includeGst);
-  const parsedGstPercent = Number(invoiceOptions?.gstPercent);
-  const gstPercent = includeGst && Number.isFinite(parsedGstPercent)
-    ? Math.min(Math.max(parsedGstPercent, 0), 28)
-    : 0;
-  const amountBeforeTax = Number(order.totalAmount) || 0;
-  const gstAmount = Math.round((amountBeforeTax * gstPercent) / 100);
-  const amountAfterTax = amountBeforeTax + gstAmount;
+  const amountBeforeTax = Math.max((Number(order.totalAmount) || 0) - (Number(order.gstAmount) || 0), 0);
+  const gstAmount = includeGst ? Number(order.gstAmount) || 0 : 0;
+  const amountAfterTax = Number(order.totalAmount) || 0;
+  const gstPercent =
+    includeGst && amountBeforeTax > 0 ? ((gstAmount / amountBeforeTax) * 100).toFixed(2) : "0.00";
   const sellerGstin = invoiceOptions?.gstin?.toString().trim() || "";
 
   return `

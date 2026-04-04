@@ -8,6 +8,7 @@ const imageSlots = [0, 1, 2, 3];
 const emptyForm = {
   name: "",
   price: "",
+  gstPercent: "0",
   description: "",
   category: "sling bag",
   stock: "",
@@ -84,6 +85,7 @@ const AdminProductsPage = () => {
     setForm({
       name: product.name,
       price: product.price,
+      gstPercent: product.gstPercent ?? 0,
       description: product.description,
       category: product.category,
       stock: product.stock,
@@ -108,6 +110,15 @@ const AdminProductsPage = () => {
           value={form.price}
           onChange={(event) => setForm((prev) => ({ ...prev, price: event.target.value }))}
           required
+        />
+        <input
+          type="number"
+          min="0"
+          max="28"
+          step="0.1"
+          placeholder="GST %"
+          value={form.gstPercent}
+          onChange={(event) => setForm((prev) => ({ ...prev, gstPercent: event.target.value }))}
         />
         <textarea
           rows={3}
@@ -170,6 +181,9 @@ const AdminProductsPage = () => {
               <div>
                 <p>{product.name}</p>
                 <span>{formatCurrency(product.price)}</span>
+                <div className="order-meta">
+                  <span>GST {Number(product.gstPercent) || 0}%</span>
+                </div>
                 <div className="order-meta">
                   <span>{product.images?.length || 1} photos</span>
                 </div>

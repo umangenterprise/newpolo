@@ -210,7 +210,10 @@ const ProfilePage = () => {
                       <div className="ordered-product-copy">
                         <strong>{item.name}</strong>
                         <span className="helper-text">
-                          Qty {item.quantity} • {formatCurrency(item.price)}
+                          Qty {item.quantity} • Base {formatCurrency(item.price)} • GST {item.gstPercent || 0}%
+                        </span>
+                        <span className="helper-text">
+                          Line total: {formatCurrency(item.lineTotal || item.price * item.quantity)}
                         </span>
                         <div className="ordered-product-actions">
                           <Link to={`/products/${item.product}`} className="text-btn">
@@ -229,6 +232,7 @@ const ProfilePage = () => {
               </div>
               <div className="order-actions">
                 <p>{formatCurrency(order.totalAmount)}</p>
+                {!!order.gstAmount && <span className="helper-text">GST included: {formatCurrency(order.gstAmount)}</span>}
                 <button
                   type="button"
                   className="text-btn danger-text"

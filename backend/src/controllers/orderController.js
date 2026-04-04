@@ -36,10 +36,11 @@ const getRazorpayClient = () => {
 
 const calculateTotals = (items, paymentMethod) => {
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const gstAmount = items.reduce((acc, item) => acc + item.gstAmount, 0);
   const shippingFee = paymentMethod === "upi_qr" || subtotal > 1999 ? 0 : SHIPPING_FEE;
-  const totalAmount = subtotal + shippingFee;
+  const totalAmount = subtotal + gstAmount + shippingFee;
 
-  return { subtotal, shippingFee, totalAmount };
+  return { subtotal, gstAmount, shippingFee, totalAmount };
 };
 
 const buildEstimatedDeliveryText = (fromDate = new Date()) => {
@@ -122,6 +123,13 @@ const buildOrderItemsFromCart = async (cartItems) => {
       name: product.name,
       image: product.image,
       price: product.price,
+      gstPercent: Number(product.gstPercent) || 0,
+      gstAmount:
+        Math.round(product.price * item.quantity * ((Number(product.gstPercent) || 0) / 100) * 100) / 100,
+      lineTotal:
+        Math.round(
+          product.price * item.quantity * (1 + (Number(product.gstPercent) || 0) / 100) * 100
+        ) / 100,
       quantity: item.quantity
     });
   }

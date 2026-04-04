@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { useApp } from "../context/useApp.jsx";
-import { formatCurrency, getImageUrl } from "../utils/helpers.js";
+import { formatCurrency, getImageUrl, getProductGstPercent } from "../utils/helpers.js";
 
 void motion;
 
@@ -15,6 +15,7 @@ const ProductCard = ({ product }) => {
   const shortDescription =
     product.description?.length > 84 ? `${product.description.slice(0, 84)}...` : product.description;
   const images = product.images?.length ? product.images : [product.image];
+  const gstPercent = getProductGstPercent(product);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -86,6 +87,7 @@ const ProductCard = ({ product }) => {
         <div className="product-bottom">
           <div>
             <strong>{formatCurrency(product.price)}</strong>
+            <span className="price-caption">GST {gstPercent}% extra</span>
             <span className="price-caption">Free shipping over INR 1999</span>
           </div>
           <div className="product-actions">

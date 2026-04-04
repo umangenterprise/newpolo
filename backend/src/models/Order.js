@@ -6,6 +6,9 @@ const orderItemSchema = new mongoose.Schema(
     name: { type: String, required: true },
     image: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
+    gstPercent: { type: Number, required: true, min: 0, max: 28, default: 0 },
+    gstAmount: { type: Number, required: true, min: 0, default: 0 },
+    lineTotal: { type: Number, required: true, min: 0, default: 0 },
     quantity: { type: Number, required: true, min: 1 }
   },
   { _id: false }
@@ -27,6 +30,7 @@ const orderSchema = new mongoose.Schema(
       default: "processing"
     },
     subtotal: { type: Number, required: true, min: 0 },
+    gstAmount: { type: Number, required: true, min: 0, default: 0 },
     shippingFee: { type: Number, required: true, min: 0, default: 0 },
     totalAmount: { type: Number, required: true, min: 0 },
     razorpayOrderId: { type: String, default: "" },

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useApp } from "../context/useApp.jsx";
-import { formatCurrency, getImageUrl } from "../utils/helpers.js";
+import { calculateCartTotals, formatCurrency, getImageUrl, getProductGstPercent } from "../utils/helpers.js";
 
 const CartPage = () => {
   const { cart, removeCartItem, updateCartQty } = useApp();
-  const subtotal = cart.items?.reduce((sum, item) => sum + item.product.price * item.quantity, 0) || 0;
+  const { subtotal, gstAmount, shippingFee, totalAmount } = calculateCartTotals(cart.items);
 
   if (!cart.items?.length) {
     return (
@@ -26,6 +26,7 @@ const CartPage = () => {
             <div>
               <h4>{item.product.name}</h4>
               <p>{formatCurrency(item.product.price)}</p>
+              <p className="helper-text">GST: {getProductGstPercent(item.product)}%</p>
               <div className="qty-row">
                 <input
                   type="number"
@@ -42,8 +43,9 @@ const CartPage = () => {
       <aside className="summary-card">
         <h3>Order Summary</h3>
         <p>Subtotal: {formatCurrency(subtotal)}</p>
-        <p>Shipping: {subtotal > 1999 ? "Free" : formatCurrency(99)}</p>
-        <strong>Total: {formatCurrency(subtotal > 1999 ? subtotal : subtotal + 99)}</strong>
+        <p>GST: {formatCurrency(gstAmount)}</p>
+        <p>Shipping: {shippingFee === 0 ? "Free" : formatCurrency(shippingFee)}</p>
+        <strong>Total: {formatCurrency(totalAmount)}</strong>
         <Link to="/checkout" className="primary-btn">
           Add Delivery Address
         </Link>
