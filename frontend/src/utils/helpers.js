@@ -21,7 +21,7 @@ export const calculateCartTotals = (items = [], paymentMethod = "cod") => {
       const gstPercent = getProductGstPercent(item.product);
       return sum + price * quantity * (gstPercent / 100);
     }, 0) || 0;
-  const shippingFee = paymentMethod === "upi_qr" || subtotal > 1999 ? 0 : 99;
+  const shippingFee = 0;
   const totalAmount = subtotal + gstAmount + shippingFee;
 
   return { subtotal, gstAmount, shippingFee, totalAmount };

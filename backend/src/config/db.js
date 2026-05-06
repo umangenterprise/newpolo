@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const DEFAULT_MONGO_URI = "mongodb://127.0.0.1:27017/umang_store";
 const RETRY_DELAY_MS = 5000;
 let retryTimer = null;
 let lastDbError = null;
 let lastConnectedAt = null;
 
-const getMongoUri = () => process.env.MONGO_URI || DEFAULT_MONGO_URI;
+const getMongoUri = () => process.env.MONGO_URI?.trim() || "";
+const isAtlasPlaceholder = (uri) => uri.includes("<username>") || uri.includes("<password>") || uri.includes("<cluster>");
 const getMaskedUri = () => getMongoUri().replace(/:\/\/([^:]+):([^@]+)@/, "://$1:***@");
 
 export const getDbHealth = () => ({
@@ -20,7 +20,13 @@ export const connectDB = async () => {
     return mongoose.connection;
   }
 
-  const conn = await mongoose.connect(getMongoUri(), {
+  const mongoUri = getMongoUri();
+
+  if (!mongoUri || isAtlasPlaceholder(mongoUri)) {
+    throw new Error("Set a valid Atlas MONGO_URI in backend/.env before starting the server.");
+  }
+
+  const conn = await mongoose.connect(mongoUri, {
     serverSelectionTimeoutMS: 10000
   });
 

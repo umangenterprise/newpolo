@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ecomer Website Project Report</title>
+    <style>
+      :root {
+        --bg: #f7f1e8;
+        --paper: #fffdf9;
+        --ink: #1f1a17;
+        --muted: #6e6259;
+        --line: #dccfbe;
+        --accent: #a45b31;
+        --accent-soft: #f0dfcf;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(180deg, #efe4d6 0%, var(--bg) 100%);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        padding: 18mm 16mm;
+        background: var(--paper);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .hero {
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f8ecde 0%, #fff9f2 100%);
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+
+      .hero p {
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+
+      .chip-row {
+        margin-top: 10px;
+      }
+
+      .chip {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0 8px 8px 0;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+        background: #fffdfa;
+      }
+
+      .card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .full {
+        margin-bottom: 18px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      li {
+        margin-bottom: 7px;
+      }
+
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      .table th,
+      .table td {
+        border: 1px solid var(--line);
+        padding: 9px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .table th {
+        background: #f7ede1;
+      }
+
+      .footer {
+        margin-top: 18px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <h1>Ecomer Website Project Report</h1>
+        <p><strong>Project:</strong> Umang Full-Stack E-Commerce Website</p>
+        <p><strong>Generated on:</strong> 16 April 2026</p>
+        <p>
+          Is report me project me use ki gayi technologies, features, backend modules, payment flow,
+          deployment setup aur admin tools ka summary diya gaya hai.
+        </p>
+        <div class="chip-row">
+          <span class="chip">React 19</span>
+          <span class="chip">Vite 8</span>
+          <span class="chip">Node.js</span>
+          <span class="chip">Express</span>
+          <span class="chip">MongoDB</span>
+          <span class="chip">Razorpay</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Frontend Me Kya Use Hua Hai</h2>
+          <ul>
+            <li>React 19 single-page application</li>
+            <li>Vite for fast development and production build</li>
+            <li>React Router DOM for page routing and protected routes</li>
+            <li>Axios for API communication</li>
+            <li>Framer Motion for animations and motion effects</li>
+            <li>React Hot Toast for success and error notifications</li>
+            <li>React Icons for UI icons</li>
+            <li>Context API for user, cart and product state</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h2>Backend Me Kya Use Hua Hai</h2>
+          <ul>
+            <li>Node.js runtime with Express.js API server</li>
+            <li>MongoDB database with Mongoose models</li>
+            <li>JWT token based authentication</li>
+            <li>bcryptjs for password hashing</li>
+            <li>Multer for image and payment screenshot uploads</li>
+            <li>Nodemailer for email sending</li>
+            <li>Razorpay SDK for online payments</li>
+            <li>CORS, dotenv and centralized error handling</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card full">
+        <h2>Main Website Features</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th>Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>User Side</td>
+              <td>Register, login, logout, profile update, order history, order cancel</td>
+            </tr>
+            <tr>
+              <td>Product Browsing</td>
+              <td>Product listing, search, category filter, price filter, pagination, product details</td>
+            </tr>
+            <tr>
+              <td>Cart</td>
+              <td>Add to cart, update quantity, remove item, subtotal and GST calculation</td>
+            </tr>
+            <tr>
+              <td>Checkout</td>
+              <td>Shipping address form, phone validation, email capture, payment method selection</td>
+            </tr>
+            <tr>
+              <td>Payment</td>
+              <td>Cash on Delivery, Razorpay payment, UPI QR payment with UTR and screenshot upload</td>
+            </tr>
+            <tr>
+              <td>Admin Panel</td>
+              <td>Dashboard stats, product management, order management, user block/unblock, user delete</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Frontend Pages</h2>
+          <ul>
+            <li>Home page</li>
+            <li>Products page</li>
+            <li>Product details page</li>
+            <li>Cart page</li>
+            <li>Checkout page</li>
+            <li>Auth page</li>
+            <li>Profile page</li>
+            <li>Admin dashboard</li>
+            <li>Admin products page</li>
+            <li>Admin orders page</li>
+            <li>Admin users page</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h2>Backend API Modules</h2>
+          <ul>
+            <li>Auth routes and controller</li>
+            <li>Products routes and controller</li>
+            <li>Cart routes and controller</li>
+            <li>Orders routes and controller</li>
+            <li>Admin routes and controller</li>
+            <li>Auth middleware and admin checks</li>
+            <li>Upload middleware</li>
+            <li>DB ready middleware</li>
+            <li>Global error middleware</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card full">
+        <h2>Extra Integrations Aur Logic</h2>
+        <ul>
+          <li>Email support through Nodemailer for order related communication</li>
+          <li>SMS helper support for order placed, confirmed and cancelled notifications</li>
+          <li>Health check endpoints for deployment monitoring</li>
+          <li>Static `/uploads` folder for product images and payment proof images</li>
+          <li>Seed scripts for sample products and admin account setup</li>
+          <li>Delivery estimate generation and stock reduce/restore logic</li>
+          <li>Order auto-cancel helper and payment status management</li>
+        </ul>
+      </section>
+
+      <section class="card full">
+        <h2>Deployment Setup</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Part</th>
+              <th>Deployment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Frontend</td>
+              <td>Netlify static deployment using `frontend/` and `netlify.toml`</td>
+            </tr>
+            <tr>
+              <td>Backend</td>
+              <td>Render Node service using repo root `render.yaml`</td>
+            </tr>
+            <tr>
+              <td>Environment Variables</td>
+              <td>Mongo URI, JWT secret, frontend URL, Razorpay keys, email and SMS configs</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="footer">
+        <p>
+          Report local project files ke basis par banayi gayi hai: frontend pages, context, backend server,
+          controllers, routes, models, package files aur README documents.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

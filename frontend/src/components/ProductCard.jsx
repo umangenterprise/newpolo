@@ -88,7 +88,7 @@ const ProductCard = ({ product }) => {
           <div>
             <strong>{formatCurrency(product.price)}</strong>
             <span className="price-caption">GST {gstPercent}% extra</span>
-            <span className="price-caption">Free shipping over INR 1999</span>
+            <span className="price-caption">Free shipping on every order</span>
           </div>
           <div className="product-actions">
             <Link to={`/products/${product._id}`} className="ghost-btn product-link">

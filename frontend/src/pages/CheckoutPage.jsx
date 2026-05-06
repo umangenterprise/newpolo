@@ -72,6 +72,14 @@ const CheckoutPage = () => {
   const isAddressComplete = Object.values(form.shippingAddress).every((value) => value?.trim());
   const isValidPhone = /^\d{10}$/.test(form.shippingAddress.phone?.trim() || "");
   const isValidPincode = /^\d{6}$/.test(form.shippingAddress.pincode?.trim() || "");
+  const hasValidUpiReference = /^[A-Za-z0-9-]{6,30}$/.test(form.paymentReference.trim());
+  const canSubmitUpiPayment = hasValidUpiReference && Boolean(paymentProof);
+  const isSubmitDisabled =
+    loading ||
+    !isAddressComplete ||
+    !isValidPhone ||
+    !isValidPincode ||
+    (form.paymentMethod === "upi_qr" && !canSubmitUpiPayment);
 
   useEffect(() => {
     if (user) {
@@ -125,7 +133,7 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (form.paymentMethod === "upi_qr" && !/^[A-Za-z0-9-]{6,30}$/.test(form.paymentReference.trim())) {
+    if (form.paymentMethod === "upi_qr" && !hasValidUpiReference) {
       toast.error("Valid UTR / transaction ID enter karo.");
       return;
     }
@@ -306,7 +314,10 @@ const CheckoutPage = () => {
             <p className="helper-text">
               Total {formatCurrency(totalAmount)} pay karo is QR se, phir neeche UTR/Txn ID dalo.
             </p>
-            <p className="helper-text">UPI QR payment par shipping fee: Free</p>
+            <p className="helper-text">Shipping fee: Free on every order</p>
+            <p className="helper-text">
+              Jab tak payment karke UTR aur screenshot upload nahi karoge, tab tak order submit nahi hoga.
+            </p>
             <img src={upiQrImage} alt="UPI QR" />
             <p className="helper-text">UPI ID: {upiId}</p>
             <input
@@ -330,8 +341,12 @@ const CheckoutPage = () => {
           </div>
         )}
 
-        <button onClick={placeOrder} className="primary-btn" disabled={loading}>
-          {loading ? "Placing order..." : "Place Order"}
+        <button onClick={placeOrder} className="primary-btn" disabled={isSubmitDisabled}>
+          {loading
+            ? "Placing order..."
+            : form.paymentMethod === "upi_qr"
+              ? "Submit Payment Proof"
+              : "Place Order"}
         </button>
       </div>
     </section>

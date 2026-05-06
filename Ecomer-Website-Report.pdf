@@ -1,0 +1,240 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 1249 >>
+stream
+BT
+/F1 20 Tf
+50 790 Td
+(Ecomer Website Project Report) Tj
+/F1 11 Tf
+0 -16 Td
+(Project: Umang Full-Stack E-Commerce Website) Tj
+0 -16 Td
+(Generated on: 16 April 2026) Tj
+0 -12 Td
+0 -16 Td
+(1. Project Overview) Tj
+0 -16 Td
+(This project is a full-stack e-commerce website built for Umang Bags.) Tj
+0 -16 Td
+(It has a React frontend, an Express backend, and MongoDB database support.) Tj
+0 -12 Td
+0 -16 Td
+(2. Frontend Technologies Used) Tj
+0 -16 Td
+(- React 19 for UI development) Tj
+0 -16 Td
+(- Vite 8 for fast development and production builds) Tj
+0 -16 Td
+(- React Router DOM for routing and protected pages) Tj
+0 -16 Td
+(- Axios for API requests) Tj
+0 -16 Td
+(- Framer Motion for animations) Tj
+0 -16 Td
+(- React Hot Toast for notifications) Tj
+0 -16 Td
+(- React Icons for interface icons) Tj
+0 -16 Td
+(- Context API for auth, cart, and product state) Tj
+0 -12 Td
+0 -16 Td
+(3. Frontend Pages Available) Tj
+0 -16 Td
+(- Home Page) Tj
+0 -16 Td
+(- Products Page) Tj
+0 -16 Td
+(- Product Details Page) Tj
+0 -16 Td
+(- Cart Page) Tj
+0 -16 Td
+(- Checkout Page) Tj
+0 -16 Td
+(- Auth Page) Tj
+0 -16 Td
+(- Profile Page) Tj
+0 -16 Td
+(- Admin Dashboard) Tj
+0 -16 Td
+(- Admin Products Page) Tj
+0 -16 Td
+(- Admin Orders Page) Tj
+0 -16 Td
+(- Admin Users Page) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+4 0 obj
+<< /Length 1440 >>
+stream
+BT
+/F1 20 Tf
+50 790 Td
+(4. Main Frontend Features) Tj
+/F1 11 Tf
+0 -16 Td
+(- Product search, category filter, and price filter) Tj
+0 -16 Td
+(- Pagination on product listing) Tj
+0 -16 Td
+(- Protected user routes and admin-only routes) Tj
+0 -16 Td
+(- Add to cart, update quantity, and remove item) Tj
+0 -16 Td
+(- Checkout form with address, phone, and email validation) Tj
+0 -16 Td
+(- Toast messages for success and error feedback) Tj
+0 -16 Td
+(- Animated sections and cards using Framer Motion) Tj
+0 -12 Td
+0 -16 Td
+(5. Backend Technologies Used) Tj
+0 -16 Td
+(- Node.js runtime) Tj
+0 -16 Td
+(- Express.js REST API) Tj
+0 -16 Td
+(- MongoDB with Mongoose models) Tj
+0 -16 Td
+(- JWT token based authentication) Tj
+0 -16 Td
+(- bcryptjs for password hashing) Tj
+0 -16 Td
+(- Multer for product image and payment proof uploads) Tj
+0 -16 Td
+(- Nodemailer for emails) Tj
+0 -16 Td
+(- Razorpay SDK for online payment handling) Tj
+0 -16 Td
+(- dotenv, cors, and express-async-errors) Tj
+0 -12 Td
+0 -16 Td
+(6. Backend Modules) Tj
+0 -16 Td
+(- Auth routes and controller) Tj
+0 -16 Td
+(- Product routes and controller) Tj
+0 -16 Td
+(- Cart routes and controller) Tj
+0 -16 Td
+(- Order routes and controller) Tj
+0 -16 Td
+(- Admin routes and controller) Tj
+0 -16 Td
+(- Auth middleware, DB-ready middleware, and error middleware) Tj
+0 -12 Td
+0 -16 Td
+(7. Database Models) Tj
+0 -16 Td
+(- User) Tj
+0 -16 Td
+(- Product) Tj
+0 -16 Td
+(- Cart) Tj
+0 -16 Td
+(- Order) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 1 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 1373 >>
+stream
+BT
+/F1 20 Tf
+50 790 Td
+(8. Payments and Order Logic) Tj
+/F1 11 Tf
+0 -16 Td
+(- Cash on Delivery support) Tj
+0 -16 Td
+(- Razorpay payment support with verification) Tj
+0 -16 Td
+(- UPI QR order flow with UTR entry and screenshot upload) Tj
+0 -16 Td
+(- GST calculation and total amount generation) Tj
+0 -16 Td
+(- Stock reduce and restore logic) Tj
+0 -16 Td
+(- Delivery estimate generation) Tj
+0 -16 Td
+(- Order cancel and status update flow) Tj
+0 -12 Td
+0 -16 Td
+(9. Admin Features) Tj
+0 -16 Td
+(- Dashboard stats for users, orders, products, and revenue) Tj
+0 -16 Td
+(- Add, edit, and delete products) Tj
+0 -16 Td
+(- Upload up to 4 product images) Tj
+0 -16 Td
+(- View and manage all orders) Tj
+0 -16 Td
+(- Update order status and payment status) Tj
+0 -16 Td
+(- Block or unblock users) Tj
+0 -16 Td
+(- Delete non-admin users) Tj
+0 -12 Td
+0 -16 Td
+(10. Deployment Setup) Tj
+0 -16 Td
+(- Frontend prepared for Netlify deployment) Tj
+0 -16 Td
+(- Backend prepared for Render deployment) Tj
+0 -16 Td
+(- netlify.toml and render.yaml configuration present) Tj
+0 -16 Td
+(- Health endpoint available at /api/health) Tj
+0 -12 Td
+0 -16 Td
+(11. Extra Integrations) Tj
+0 -16 Td
+(- Static uploads folder for images) Tj
+0 -16 Td
+(- Email helper utilities) Tj
+0 -16 Td
+(- SMS helper utilities) Tj
+0 -16 Td
+(- Seed scripts for products and admin setup) Tj
+0 -12 Td
+0 -16 Td
+(End of report.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 1 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Type /Pages /Count 3 /Kids [ 3 0 R 5 0 R 7 0 R ] >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000001380 00000 n 
+0000001506 00000 n 
+0000002998 00000 n 
+0000003124 00000 n 
+0000004549 00000 n 
+0000004675 00000 n 
+0000004746 00000 n 
+trailer
+<< /Size 10 /Root 9 0 R >>
+startxref
+4787%%EOF

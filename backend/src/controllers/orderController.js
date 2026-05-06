@@ -8,7 +8,6 @@ import { autoCancelExpiredOrders } from "../utils/orderAutoCancel.js";
 import { isEmailConfigured, sendOrderConfirmationEmail } from "../utils/email.js";
 import { isSmsConfigured, sendOrderCancelledSms, sendOrderPlacedSms } from "../utils/sms.js";
 
-const SHIPPING_FEE = 99;
 const DELIVERY_MIN_DAYS = 2;
 const DELIVERY_MAX_DAYS = 4;
 const invalidRazorpayValues = new Set([
@@ -37,7 +36,7 @@ const getRazorpayClient = () => {
 const calculateTotals = (items, paymentMethod) => {
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const gstAmount = items.reduce((acc, item) => acc + item.gstAmount, 0);
-  const shippingFee = paymentMethod === "upi_qr" || subtotal > 1999 ? 0 : SHIPPING_FEE;
+  const shippingFee = 0;
   const totalAmount = subtotal + gstAmount + shippingFee;
 
   return { subtotal, gstAmount, shippingFee, totalAmount };
